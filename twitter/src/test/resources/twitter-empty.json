@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "min_position": {
+      "type": "string",
+      "enum": [
+        "TWEET--"
+      ]
+    },
+    "has_more_items": {
+      "type": "boolean"
+    },
+    "items_html": {
+      "type": "string"
+    },
+    "new_latent_count": {
+      "type": "integer"
+    },
+    "focused_refresh_interval": {
+      "type": "integer"
+    }
+  }
+}

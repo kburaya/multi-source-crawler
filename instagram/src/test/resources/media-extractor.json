@@ -1,0 +1,194 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "integer"
+    },
+    "owner": {
+      "type": "object",
+      "properties": {
+        "is_private": {
+          "type": "boolean"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "is_unpublished": {
+          "type": "boolean"
+        },
+        "blocked_by_viewer": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "requested_by_viewer": {
+          "type": "boolean"
+        },
+        "profile_pic_url": {
+          "type": "string"
+        },
+        "has_blocked_viewer": {
+          "type": "boolean"
+        },
+        "followed_by_viewer": {
+          "type": "boolean"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "code": {
+      "type": "string"
+    },
+    "comments": {
+      "type": "object",
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "created_at": {
+                "type": "number"
+              },
+              "id": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "user": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "profile_pic_url": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "page_info": {
+          "type": "object",
+          "properties": {
+            "has_previous_page": {
+              "type": "boolean"
+            },
+            "has_next_page": {
+              "type": "boolean"
+            },
+            "end_cursor": {
+              "type": "null"
+            },
+            "start_cursor": {
+              "type": "null"
+            }
+          }
+        },
+        "count": {
+          "type": "integer"
+        }
+      }
+    },
+    "is_ad": {
+      "type": "boolean"
+    },
+    "usertags": {
+      "type": "object",
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {}
+        }
+      }
+    },
+    "caption": {
+      "type": "string"
+    },
+    "is_video": {
+      "type": "boolean"
+    },
+    "display_src": {
+      "type": "string"
+    },
+    "caption_is_edited": {
+      "type": "boolean"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "has_public_page": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        }
+      }
+    },
+    "comments_disabled": {
+      "type": "boolean"
+    },
+    "id": {
+      "type": "string"
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        }
+      }
+    },
+    "likes": {
+      "type": "object",
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "profile_pic_url": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "viewer_has_liked": {
+          "type": "boolean"
+        },
+        "count": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
