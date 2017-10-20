@@ -10,7 +10,9 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kseniya on 22/12/16.
@@ -38,7 +40,9 @@ public class InstagramCrawler implements Crawler {
     public void stop() {
     }
 
+
     private void collectInstagramTimeline(String userName) {
+        log.info(String.format("Begin to collect instagram timeline for user [%s]", userName));
         String max_id = "1";
         Boolean more_available = true;
         JSONObject resp;
@@ -49,6 +53,8 @@ public class InstagramCrawler implements Crawler {
                 resp = new JSONObject(pageFetcher.getPageBody(timeLineURL));
             } catch (Exception e) {
                 log.warn(String.format("Failed to execute instagram media url [%s], skipping", timeLineURL));
+                if (e.getMessage().equals("HTTP error fetching URL"))
+                    break;
                 continue;
             }
             more_available = (Boolean) resp.get("more_available");
@@ -73,18 +79,14 @@ public class InstagramCrawler implements Crawler {
                     max_id = (String) mediaDBObject.get("_id");
                     continue;
                 }
-                String locationInfo = null;
-                try {
-                    locationInfo = mediaExtractor.getLocationIdFromImage(mediaInfo);
-                } catch (Exception e) {
-                    log.warn("Cannot get location info for media", e);
-                }
 
-                if (locationInfo != null) {
-                    locationInfo = locationInfo.replace("id", "_id");
-                    DBObject locationDBObject = (DBObject) JSON.parse(locationInfo);
-                    mediaDBObject.removeField("location");
-                    mediaDBObject.put("location", locationDBObject);
+                String likersURL = String.format("https://i.instagram.com/api/v1/media/%s/likers/", mediaDBObject.get("_id"));
+                try {
+                    JSONObject likes = new JSONObject(pageFetcher.getPageBody(likersURL));
+                    Object o = JSON.parse(likes.get("users").toString());
+                    mediaDBObject.put("likes", (DBObject) o);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
                 if (!dataBaseAdapter.isObjectExists(new BasicDBObject("_id", mediaDBObject.get("_id")), "media"))
                     dataBaseAdapter.saveObjectToDataBase((BasicDBObject) mediaDBObject, "media");

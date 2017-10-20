@@ -59,32 +59,6 @@ public class MediaExtractor {
 
         String jsonString = resp.substring(resp.indexOf("._sharedData = ") + 15, resp.indexOf("};</script") + 1);
         JSONObject json = new JSONObject(jsonString);
-        return json.getJSONObject("entry_data").getJSONArray("PostPage").getJSONObject(0).getJSONObject("media").toString();
-    }
-
-    public String getLocationIdFromImage(String imageJSONString) {
-        JSONObject imageJSON = new JSONObject(imageJSONString);
-        try {
-            String id = (String) imageJSON.getJSONObject("location").get("id");
-            Boolean hasPublicPage = (Boolean) imageJSON.getJSONObject("location").get("has_public_page");
-            if (!hasPublicPage) {
-                log.warn(String.format("Location id [%s] haven't got public page, skipping", id));
-                return null;
-            }
-            String locationURL = String.format("https://www.instagram.com/explore/locations/%s/", id);
-            String resp;
-            try {
-                resp = pageFetcher.getPageBody(locationURL);
-            } catch (Exception e) {
-                log.warn(String.format("Can't execute location url [%s]", locationURL), e);
-                return null;
-            }
-            String jsonString = resp.substring(resp.indexOf("._sharedData = ") + 15, resp.indexOf("};</script") + 1);
-            JSONObject json = new JSONObject(jsonString);
-            return json.getJSONObject("entry_data").getJSONArray("LocationsPage").getJSONObject(0).getJSONObject("location").toString();
-        } catch (Exception e) {
-            log.info("The image doesn't contain location");
-        }
-        return null;
+        return json.getJSONObject("entry_data").getJSONArray("PostPage").getJSONObject(0).getJSONObject("graphql").getJSONObject("shortcode_media").toString();
     }
 }
